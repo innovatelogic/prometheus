@@ -1,6 +1,8 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 
+import { FileNode } from './FileNode';
+
 export function activate(context: vscode.ExtensionContext) {
     // Register the command to show the file hierarchy
     const disposable = vscode.commands.registerCommand('helloworld.showFileHierarchy', async () => {
@@ -107,9 +109,3 @@ function generateHierarchyHtml(node: FileNode): string {
     return `<li>${node.name}<ul>${childrenHtml}</ul></li>`;
 }
 
-// FileNode class to represent files and directories
-class FileNode {
-    public children: FileNode[] = [];
-
-    constructor(public readonly path: string, public readonly name: string) {}
-}
