@@ -1,5 +1,13 @@
+__pycache__/
+.DS_Store
+build/
+venv/
+env/
+key/
+Testing/
 out
 dist
 node_modules
 .vscode-test/
 *.vsix
+

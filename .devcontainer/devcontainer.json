@@ -1,0 +1,62 @@
+// .devcontainer/devcontainer.json
+{
+    "name": "VSCode Ext Ubuntu 22.04 Dev Container",
+
+    "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+
+  "runArgs": ["--privileged"], 
+  "init" : true,
+ // "postStartCommand": "sysctl -w kernel.yama.ptrace_scope=0",
+
+  "remoteUser": "root",
+  "features": {
+  },
+  "remoteEnv": {
+     "SSH_AUTH_SOCK": "/root/.ssh/agent.sock"
+  },
+
+  "customizations":
+  {
+      "vscode":
+      {
+        "extensions": [
+          "ms-vscode.cpptools",
+          "ms-vscode.cpptools-extension-pack",
+          "ms-vscode.cmake-tools",
+          "ms-vscode.lldb",
+          "llvm-vscode-extensions.vscode-llvm",
+          "ms-python.python",
+          "ms-vscode.code-lldb",
+          "vadimcn.vscode-lldb",
+          "ms-azuretools.vscode-docker",
+          "github.vscode-github-actions",
+          "ms-vscode.js-debug-nightly",
+          "edonet.vscode-command-runner",
+          "kentayamada.vscode-statusbar-commands",
+          "hoovercj.vscode-statusbar-utils",
+          "ryuta46.multi-command",
+          "dbaeumer.vscode-eslint",
+          "ms-vscode.vscode-typescript-next",
+          "ms-vscode.js-debug-nightly"
+        ]
+        ,
+        "settings":{
+        "python.pythonPath": "/usr/bin/python3.10",
+        "python.testing.unittestEnabled": false, 
+        "python.testing.pytestEnabled": true,
+        "python.testing.pytestArgs": [
+              "prometheus/web/app/ut/",
+              "--disable-warnings",
+              "--rootdir=/workspaces/prometheus/ut/"
+          ],  // The "." specifies the root directory
+          "python.testing.autoTestDiscoverOnSaveEnabled": true
+        }
+    }
+  },
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached"
+  ]
+}
