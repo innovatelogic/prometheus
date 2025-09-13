@@ -1,6 +1,10 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 
+import { io, Socket } from "socket.io-client";
+const socket: Socket = io('http://127.0.0.1:8088');
+
+
 import { FileNode } from './FileNode';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -11,6 +15,13 @@ export function activate(context: vscode.ExtensionContext) {
             vscode.window.showErrorMessage('No workspace folder is open.');
             return;
         }
+
+        socket.on('connect', () => console.log('Connected'));
+        //const ws = new WebSocket('ws://127.0.0.1:8088/socket.io/');
+
+        //ws.addEventListener('open', () => {
+        //    vscode.window.showInformationMessage('WebSocket connected to 127.0.0.1:8080');
+        //});
 
         // Start parsing files from the root of the workspace
         const rootFolder = workspaceFolders[0].uri.fsPath;

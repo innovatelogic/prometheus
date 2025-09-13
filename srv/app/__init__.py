@@ -44,6 +44,8 @@ if 'flask' in sys.argv[0]:
     app.config["ENV"] = "development"
 
     io = SocketIO(app, cors_allowed_origins="*")
+    io.run(app, host="0.0.0.0", port=8088)
+    
     logging.info("SocketIO initialized for Flask with CORS allowed.")
 elif 'gunicorn' in sys.argv[0]:
     io = SocketIO(app, async_mode='gevent', cors_allowed_origins="*")
@@ -76,21 +78,14 @@ clients = {}
 @io.on('connect')
 def events_connect(auth):
     '''generate uuid on connection and send it back to client '''
+    
+    print("on_connect")
     userid = str(uuid.uuid4())
     session['userid'] = userid
     clients[userid] = request.sid
 
     print("[events_connect] userid[token]= " + str(userid))
     print("[events_connect] request.sid=" + str(request.sid))
-    print("[events_connect] current_user.is_authenticated=" + str(current_user.is_authenticated))
-
-    if current_user.is_authenticated:
-        print("[events_connect] current_user.api_id=" + str(current_user.api_id))
-        print("[events_connect] current_user.database_id=" + str(current_user.database_id))
-        
-        emit('socket_set_userid', {'userid': userid, "user_database_id":current_user.database_id}, to=request.sid)
-    else:
-        emit('socket_set_userid', {'userid': userid, "user_database_id":0}, to=request.sid)
 
 @io.on('disconnect')
 def test_disconnect():

@@ -27,7 +27,7 @@ def create_app():
 
     import_libs()
     start_service()
-    run_app()
+    #run_app()
 
     from app.py import routes
 

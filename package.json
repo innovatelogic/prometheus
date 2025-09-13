@@ -20,8 +20,7 @@
       {
         "command": "helloworld.showFileList",
         "title": "Show File List"
-      }
-      ,
+      },
       {
         "command": "helloworld.showFileHierarchy",
         "title": "Show File Hierarchy"
@@ -46,5 +45,8 @@
     "typescript": "^5.7.2",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1"
+  },
+  "dependencies": {
+    "socket.io-client": "^4.7.2"
   }
 }

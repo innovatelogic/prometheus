@@ -44,16 +44,22 @@ RUN apt-get update -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-    # Install Node.js (replace 20.x with the version you want)
+# Install Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs
 
-# Install app dependencies
+WORKDIR /workspaces/prometheus
 
-COPY requirements.txt ./requirements.txt
+# Copy package files and install Node.js dependencies
+COPY package.json package-lock.json ./
 
+RUN npm install node-fetch ws socket.io-client@4 --save \
+    && npm install --save-dev @types/node-fetch @types/ws
+
+# Copy Python requirements and install
+COPY requirements.txt ./
 RUN apt update && apt install -y python3 python3-pip
-RUN pip3 install -r ./requirements.txt --ignore-installed
+RUN pip3 install -r requirements.txt --ignore-installed
 
 ENV LD_LIBRARY_PATH="/workspaces/prometheus/build/bin" \
     PROMETHEUS_APP_DATA="/workspaces/prometheus/runtime" \
